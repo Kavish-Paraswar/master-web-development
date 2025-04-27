@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="/faviconicon.png" type="image/x-icon">
+
+    <title>CSS MEDIUM Quiz</title>
+    <link rel="shortcut icon" href="./assets/image/favicon.png" type="image/x-icon">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0a153e;
+            color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .quiz-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .option {
+            background-color: #1e1e1e;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background-color: #e76705;
+            transform: scale(1.02);
+        }
+
+        .option.selected {
+            background-color: #b3e5fc;
+            border: 2px solid #007bff;
+            color: #007bff;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .code-block {
+            background-color: #1e1e1e;
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>CSS Medium Challenge</h1>
+        <div id="question-container"></div>
+        <button id="next-button" class="hidden" onclick="nextQuestion()">Next Question</button>
+        <button id="submit-button" class="hidden" onclick="submitAnswers()">Submit Answers</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1) What will be the output of the following CSS code snippet?",
+                code: `h1 {
+    color: red;
+    text-decoration: underline;
+    font-style: italic;
+}`,
+                options: [
+                    "a) color: red, text-decoration: underline works",
+                    "b) only font-style: italic works",
+                    "c) color: red, text-decoration: underline and font-style: italic all works",
+                    "d) text-decoration: underline and font-style: italic works"
+                ],
+                answer: 2
+            },
+            {
+                question: "2) Which of the following are the CSS Extension Prefixes for Webkit?",
+                options: [
+                    "a) -chrome",
+                    "b) -web",
+                    "c) -o-",
+                    "d) -webkit"
+                ],
+                answer: 3
+            },
+            {
+                question: "3) Which of the following CSS property defines the space between cells in a table?",
+                options: [
+                    "a) border-spacing",
+                    "b) border-style",
+                    "c) border",
+                    "d) none of the mentioned"
+                ],
+                answer: 0
+            },
+            {
+                question: "4) Which of the following is the first CSS specification to become an official W3C Recommendation?",
+                options: [
+                    "a) CSS level 2",
+                    "b) (X)HTML CSS",
+                    "c) CSS level 1",
+                    "d) CSS level 2.1"
+                ],
+                answer: 2
+            },
+            {
+                question: "5) Which of the following function defines a linear gradient as a CSS image?",
+                options: [
+                    "a) gradient()",
+                    "b) linear-gradient()",
+                    "c) grayscale()",
+                    "d) image()"
+                ],
+                answer: 1
+            },
+            {
+                question: "6) Which of the following CSS property can be used to set the image as a border instead of the border style?",
+                options: [
+                    "a) background-image-source",
+                    "b) background-image",
+                    "c) border-image-source",
+                    "d) border-image"
+                ],
+                answer: 3
+            },
+            {
+                question: "7) Which of the following CSS property defines the different properties of all four sides of an element’s border in a single declaration?",
+                options: [
+                    "a) border-collapse",
+                    "b) border-width",
+                    "c) padding",
+                    "d) border"
+                ],
+                answer: 3
+            },
+            {
+                question: "8) Which of the following is the correct way to apply CSS Styles?",
+                options: [
+                    "a) in an external CSS file",
+                    "b) inside an HTML element",
+                    "c) inside the <head> section of an HTML page",
+                    "d) all of the mentioned"
+                ],
+                answer: 3
+            },
+            {
+                question: "9) Which of the following CSS property sets the font size of text?",
+                options: [
+                    "a) font-size",
+                    "b) text-size",
+                    "c) text",
+                    "d) size"
+                ],
+                answer: 0
+            },
+            {
+                question: "10) Which of the following is not the property of the CSS box model?",
+                options: [
+                    "a) margin",
+                    "b) color",
+                    "c) width",
+                    "d) height"
+                ],
+                answer: 1
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function showQuestion() {
+            const questionContainer = document.getElementById('question-container');
+            const question = questions[currentQuestionIndex];
+            questionContainer.innerHTML = `
+                <div class="question">${question.question}</div>
+                ${question.code ? `<pre class="code-block"><code>${question.code}</code></pre>` : ''}
+                <ul class="options">
+                    ${question.options.map((option, i) => `
+                        <li class="option" onclick="selectOption(this, ${i})">${option}</li>
+                    `).join('')}
+                </ul>
+            `;
+
+            document.getElementById('next-button').classList.add('hidden');
+            document.getElementById('submit-button').classList.add('hidden');
+        }
+
+        function selectOption(optionElement, selectedIndex) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            optionElement.classList.add('selected');
+
+            const question = questions[currentQuestionIndex];
+            if (selectedIndex === question.answer) {
+                score++;
+            }
+
+            document.getElementById('next-button').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                document.getElementById('next-button').classList.add('hidden');
+                document.getElementById('submit-button').classList.remove('hidden');
+                document.getElementById('question-container').innerHTML = `<h3>Quiz Complete! Your score is ${score} out of ${questions.length}</h3>`;
+            }
+        }
+
+        function submitAnswers() {
+            alert(`You scored ${score} out of ${questions.length}`);
+            window.location.href = 'index.html';
+        }
+
+        window.onload = showQuestion;
+    </script>
+</body>
+</html>

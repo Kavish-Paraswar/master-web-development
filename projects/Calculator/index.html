@@ -2,12 +2,78 @@
 <html>
 <head>
     <title>Enhanced JavaScript Scientific Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Link to the external CSS file -->
     <link rel="stylesheet" href="style.css">
     <!-- Include math.js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.5.0/math.min.js"></script>
-</head>
-<body>
+    <style>
+        :root { /* Light theme colors */ 
+            --background-color: #e6d7e6;
+            --text-color: #000000; 
+            --navbar-background: #f8f9fa; 
+            --navbar-text: #000000; 
+            --link-color: #1a73e8; 
+            --button-background: #008cba; 
+            --button-text: #ffffff; 
+        } [data-theme="dark"] { /* Dark theme colors */ 
+            --background-color: #121212; 
+            --text-color: #ffffff;
+             --navbar-background: #333333; 
+             --navbar-text: #ffffff; 
+             --link-color: #bb86fc;
+              --button-background: #3d3d3d; 
+              --button-text: #ffffff;
+             }
+             
+             * {
+                 padding: 0;
+                  margin: 0; box-sizing: 
+                  border-box; 
+                } body { font-family: "Poppins", sans-serif;
+                 background-color: var(--background-color);
+                  color: var(--text-color); 
+                } #navbar ul { list-style: none;
+                     padding: 0;
+                     } #navbar ul li { 
+                        display: inline;
+                         margin-right: 10px; 
+                        } 
+                        #navbar ul li a { 
+                            color: var(--navbar-text); 
+                            text-decoration: none; 
+                        } 
+                        button   {
+                             border: none;
+       display: inline-flex;
+       appearance: none;
+       align-items: center;
+       justify-content: center;
+       border-radius: 9999px;
+       padding: 8px;
+       align-items: center;
+       background-color: #f43f5e;
+       color: #ffffff;
+       cursor: pointer;
+   }
+         #theme-toggle 
+         { position: fixed;
+             top: 10px; 
+             right: 10px;
+          } </style>
+           </head>
+            <body data-theme="light"> 
+                            <button id="theme-toggle"> <i class="fas fa-sun"></i> </button> 
+                             <section id="content">  </section> 
+                             <script> const toggleButton = document.getElementById('theme-toggle'); 
+                             const body = document.body; 
+                             toggleButton.addEventListener('click', () => { if (body.getAttribute('data-theme') === 'light') { body.setAttribute('data-theme', 'dark'); 
+                             toggleButton.innerHTML = '<i class="fas fa-moon"></i>'; 
+                             } else { 
+                                body.setAttribute('data-theme', 'light'); 
+                                toggleButton.innerHTML = '<i class="fas fa-sun"></i>';
+                                 } }); 
+                                 </script>
     <div class="title">
         <a href="#">JavaScript Scientific Calculator</a>
     </div>
@@ -15,7 +81,7 @@
         <!-- Calculator Table -->
         <table>
             <tr>
-                <td colspan="6"><input type="text" id="textval" readonly/></td>
+                <td colspan="6"><input type="text" id="textval" placeholder="0" readonly/></td>
             </tr>
             <tr>
                 <td><input type="button" value="AC" onclick="clear_textval()"/> </td>
@@ -26,28 +92,28 @@
                 <td><input type="button" value="π" onclick="display(Math.PI)"/> </td>
             </tr>
             <tr>
-                <td><input type="button" value="tan" onclick="trigFunc('tan')"/> </td>
                 <td><input type="button" value="x!" onclick="factorial()"/> </td>
+                <td><input type="button" value="x²" onclick="square()"/> </td>
+                <td><input type="button" value="√" onclick="sqrt()"/> </td>
+                <td><input type="button" value="^" onclick="display('^')"/> </td>
+                <td><input type="button" value="sin" onclick="trigFunc('sin')"/> </td>
                 <td><input type="button" value="sin⁻¹" onclick="invTrigFunc('asin')"/> </td>
-                <td><input type="button" value="cos⁻¹" onclick="invTrigFunc('acos')"/> </td>
-                <td><input type="button" value="tan⁻¹" onclick="invTrigFunc('atan')"/> </td>
-                <td><input type="button" value="eˣ" onclick="exp()"/> </td>
             </tr>
             <tr>
                 <td><input type="button" value="7" onclick="display('7')"/> </td>
                 <td><input type="button" value="8" onclick="display('8')"/> </td>
                 <td><input type="button" value="9" onclick="display('9')"/> </td>
                 <td><input type="button" value="/" onclick="display('/')"/> </td>
-                <td><input type="button" value="x²" onclick="square()"/> </td>
-                <td><input type="button" value="x³" onclick="cube()"/> </td>
+                <td><input type="button" value="cos" onclick="trigFunc('cos')"/> </td>
+                <td><input type="button" value="cos⁻¹" onclick="invTrigFunc('acos')"/> </td>
             </tr>
             <tr>
                 <td><input type="button" value="4" onclick="display('4')"/> </td>
                 <td><input type="button" value="5" onclick="display('5')"/> </td>
                 <td><input type="button" value="6" onclick="display('6')"/> </td>
                 <td><input type="button" value="*" onclick="display('*')"/> </td>
-                <td><input type="button" value="√" onclick="sqrt()"/> </td>
-                <td><input type="button" value="³√" onclick="cuberoot()"/> </td>
+                <td><input type="button" value="tan" onclick="trigFunc('tan')"/> </td>
+                <td><input type="button" value="tan⁻¹" onclick="invTrigFunc('atan')"/> </td>
             </tr>
             <tr>
                 <td><input type="button" value="1" onclick="display('1')"/> </td>
@@ -55,15 +121,15 @@
                 <td><input type="button" value="3" onclick="display('3')"/> </td>
                 <td><input type="button" value="-" onclick="display('-')"/> </td>
                 <td><input type="button" value="log" onclick="logBase10()"/> </td>
-                <td><input type="button" value="^" onclick="display('^')"/> </td>
+                <td><input type="button" value="eˣ" onclick="exp()"/> </td>
             </tr>
             <tr>
                 <td><input type="button" value="0" onclick="display('0')"/> </td>
                 <td><input type="button" value="." onclick="display('.')"/> </td>
                 <td><input type="button" value="=" onclick="evaluate_exp()"/> </td>
                 <td><input type="button" value="+" onclick="display('+')"/> </td>
-                <td><input type="button" value="sin" onclick="trigFunc('sin')"/> </td>
-                <td><input type="button" value="cos" onclick="trigFunc('cos')"/> </td>
+                <td><input type="button" value="x³" onclick="cube()"/> </td>
+                <td><input type="button" value="³√" onclick="cuberoot()"/> </td>
             </tr>
         </table>
 
@@ -73,11 +139,13 @@
             <input type="text" class="matrix-input" id="matrixA" placeholder="Matrix A (e.g., [[1,2],[3,4]])"/>
             <input type="text" class="matrix-input" id="matrixB" placeholder="Matrix B (optional)"/>
             <br/>
-            <input type="button" value="A + B" onclick="matrixAdd()"/>
-            <input type="button" value="A - B" onclick="matrixSubtract()"/>
-            <input type="button" value="A * B" onclick="matrixMultiply()"/>
-            <input type="button" value="det(A)" onclick="matrixDeterminant()"/>
-            <input type="button" value="inv(A)" onclick="matrixInverse()"/>
+            <div class="button-boxes">
+                <input type="button" value="A + B" onclick="matrixAdd()"/>
+                <input type="button" value="A - B" onclick="matrixSubtract()"/>
+                <input type="button" value="A * B" onclick="matrixMultiply()"/>
+                <input type="button" value="det(A)" onclick="matrixDeterminant()"/>
+                <input type="button" value="inv(A)" onclick="matrixInverse()"/>
+            </div>
             <div class="matrix-result" id="matrixResult"></div>
         </div>
 
@@ -86,9 +154,9 @@
             <h2>Function Definition</h2>
             <input type="text" class="function-input" id="functionDef" placeholder="Define function (e.g., f(x)=x^2 + 3*x + 2)"/>
             <br/>
-            <input type="button" value="Define" onclick="defineFunction()"/>
+            <input style="width: 90px; margin-bottom: 16px;" type="button" value="Define" onclick="defineFunction()"/>
             <input type="text" class="function-input" id="functionEval" placeholder="Evaluate f(5)"/>
-            <input type="button" value="Evaluate" onclick="evaluateFunction()"/>
+            <input style="width: 90px;" type="button" value="Evaluate" onclick="evaluateFunction()"/>
             <div class="function-result" id="functionResult"></div>
         </div>
     </div>

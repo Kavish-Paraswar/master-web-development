@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/faviconicon.png" type="image/x-icon">
+    <title>Hard CSS Quiz</title>
+    <link rel="shortcut icon" href="./assets/image/favicon.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #08114c;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .quiz-container {
+            background-color: #2b2b2b;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
+            width: 100%;
+            color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            color: #00c853;
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .option {
+            background-color: #3949ab;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 7px 0;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background-color: #1e88e5;
+            transform: scale(1.03);
+        }
+
+        .selected {
+            background-color: #ff5252;
+            border: 2px solid #ff1744;
+        }
+
+        button {
+            background-color: #00c853;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #00a844;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .code-block {
+            background-color: #333;
+            color: #8bc34a;
+            padding: 10px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Hard CSS Quiz</h1>
+        <div id="question-container"></div>
+        <button id="next-button" class="hidden" onclick="nextQuestion()">Next Question</button>
+        <button id="submit-button" class="hidden" onclick="submitAnswers()">Submit Answers</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1) Which of the following CSS property sets what kind of line decorations are added to an element, such as underlines, overlines, etc?",
+                options: [
+                    "a) text-decoration",
+                    "b) text-style",
+                    "c) text-decoration-line",
+                    "d) text-line"
+                ],
+                answer: 0
+            },
+            // More questions...
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function showQuestion() {
+            const questionContainer = document.getElementById('question-container');
+            const question = questions[currentQuestionIndex];
+            questionContainer.innerHTML = `
+                <div class="question">
+                    <h3>${question.question}</h3>
+                    <ul class="options">
+                        ${question.options.map((option, i) => `
+                            <li class="option" onclick="selectOption(this, ${i})">${option}</li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+            document.getElementById('next-button').classList.add('hidden');
+            document.getElementById('submit-button').classList.add('hidden');
+        }
+
+        function selectOption(optionElement, selectedIndex) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            optionElement.classList.add('selected');
+
+            const question = questions[currentQuestionIndex];
+            if (selectedIndex === question.answer) {
+                score++;
+            }
+
+            document.getElementById('next-button').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                document.getElementById('next-button').classList.add('hidden');
+                document.getElementById('submit-button').classList.remove('hidden');
+                document.getElementById('question-container').innerHTML = `<h3>Challenge Complete! Your score is ${score} out of ${questions.length}</h3>`;
+            }
+        }
+
+        function submitAnswers() {
+            alert(`You scored ${score} out of ${questions.length}`);
+            window.location.href = 'index.html'; // Redirect to main page after submitting
+        }
+
+        window.onload = showQuestion;
+    </script>
+</body>
+</html>
